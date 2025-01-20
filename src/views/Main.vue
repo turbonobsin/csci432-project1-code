@@ -8,6 +8,8 @@ const router = useRouter();
  * @param e {MouseEvent}
  */
 function signOut(e){
+    localStorage.removeItem("username");
+    
     router.push({
         name:"home"
     });

@@ -1,10 +1,12 @@
 <script setup>
 import Header from '@/components/Header.vue';
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
     <Header>
         <nav>
+            <RouterLink to="/join">Join</RouterLink>
             <RouterLink to="/signin">Sign In</RouterLink>
         </nav>
     </Header>

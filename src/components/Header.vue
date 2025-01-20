@@ -28,6 +28,7 @@ header{
     position:relative;
     cursor:pointer;
     user-select:none;
+    margin:var(--size-400);
 }
 :slotted(a)::after{
     content:"";

@@ -19,8 +19,8 @@
 
 <style scoped>
 img{
-    /* max-width:50px; */
-    max-width:70px;
+    max-width:60px;
+    /* max-width:70px; */
     /* max-width:115px; */
     border-radius:5px;
     margin:10px;

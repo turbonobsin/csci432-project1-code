@@ -11,7 +11,8 @@
 
     --clr-accent-500: hsl(235, 45%, 45%);
     --clr-accent-400: hsl(235, 68%, 59%);
-    --clr-accent-300: hsl(235, 68%, 75%);
+    /* --clr-accent-300: hsl(235, 68%, 75%); */
+    --clr-accent-300: hsl(235, 88%, 85%);
     --clr-accent-100: hsl(235, 100%, 96%);
 
     --clr-primary-400: hsl(228, 39%, 23%);
@@ -225,6 +226,13 @@ svg {
     padding-block: var(--size-700);
 }
 
+.margin-block-700{
+    margin-block:var(--size-700);
+}
+.margin-block-500{
+    margin-block:var(--size-500);
+}
+
 .container {
     --max-width: 1110px;
     --padding: var(--size-700);
@@ -326,7 +334,13 @@ body {
 
 .button:hover,
 .button:focus-visible {
-    background-color: var(--clr-accent-500);
+    /* background-color:var(--clr-accent-300); */
+    /* color:var(--clr-neutral-900); */
+
+    background-color:var(--clr-accent-400);
+
+
+    /* background-color: var(--clr-accent-500); */
     /* background-color: var(--clr-neutral-900); */
     /* background-color: var(--clr-accent-300); */
 }
@@ -335,4 +349,54 @@ body {
 .button[data-type="inverted"]:focus-visible {
     background-color: var(--clr-neutral-100);
     color: var(--clr-accent-300);
+}
+
+/* forms */
+.form{
+    width:250px;
+}
+.form-item{
+    position:relative;
+    margin-block:var(--size-600);
+}
+.form-item > label{
+    position:absolute;
+    font-family:var(--ff-heading);
+    font-size:var(--fs-300);
+    top:0px;
+    left:0px;
+    translate:0px -100%;
+}
+.form-item input{
+    --bg:var(--clr-neutral-200);
+    width:100%;
+    outline:none;
+    border:none;
+    background-color:var(--bg);
+    border-radius:var(--size-100);
+    padding:var(--size-100) var(--size-200);
+    font-size:var(--fs-300);
+    position:relative;
+}
+.form-item input:focus{
+    /* outline:solid 2px var(--clr-accent-400); */
+    --bg:var(--clr-accent-100);
+}
+.form-item input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0 100px var(--bg) inset;
+}
+.form-item:has(input:focus)::after{
+    content:"";
+    width:4px;
+    background-color:var(--clr-accent-400);
+    height:100%;
+    position:absolute;
+    top:0px;
+    left:-8px;
+    border-radius:var(--size-100);
+}
+
+/* testing */
+:root{
+    /* filter:invert(1) hue-rotate(180deg); */
 }
