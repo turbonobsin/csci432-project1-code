@@ -2,7 +2,12 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "target": "ES2015",
+    "lib": [
+      "DOM",
+      "DOM.Iterable"
+    ]
   },
   "exclude": ["node_modules", "dist"]
 }

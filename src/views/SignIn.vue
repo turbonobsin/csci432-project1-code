@@ -28,6 +28,7 @@ function signIn(e){
     <Header>
         <nav>
             <RouterLink to="/join">Join</RouterLink>
+            <RouterLink to="/">Home</RouterLink>
         </nav>
     </Header>
 
