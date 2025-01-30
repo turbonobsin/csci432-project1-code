@@ -2,48 +2,21 @@
 import Header from '@/components/Header.vue';
 import { useRouter } from 'vue-router';
 
-const serverURL = "https://hap-app-api.azurewebsites.net/";
+import { initInputsForErrorHandling, serverURL, updateErrorMsg, UserResponse, validateEmail, validatePassword } from '@/util';
 
 const router = useRouter();
 
-function updateErrorMsg(msg:string,highlights?:string[]){
-    const error = document.querySelector(".error");
-    if(error) error.textContent = msg;
-
-    // clear
-    let items = document.querySelectorAll(".error-highlight");
-    for(const elm of items){
-        elm.classList.remove("error-highlight");
-    }
-    
-    if(highlights){
-        for(const selector of highlights){
-            let elm = document.querySelector(selector);
-            if(elm) elm.classList.add("error-highlight");
-        }
-    }
-}
-function init(){
-    /**@type {HTMLInputElement[]} */
-    let inputs = document.querySelectorAll("input");
-    for(const inp of inputs){
-        inp.addEventListener("input",e=>{
-            updateErrorMsg("");
-        });
-    }
+function getValue(id:string){
+    return document.querySelector<HTMLInputElement>(id).value;
 }
 
-async function join(){
+async function join(){    
     let fields = [...document.querySelector(".form").querySelectorAll("input")];
     if(fields.some(v=>!v.value)){
-        // alert("Failed to join, some inputs were empty.");
         updateErrorMsg("Please fill out all required fields.");
         return;
     }
 
-    function getValue(id:string){
-        return document.querySelector<HTMLInputElement>(id).value;
-    }
     let firstName = getValue("#first_name");
     let lastName = getValue("#last_name");
     let email = getValue("#email");
@@ -51,12 +24,12 @@ async function join(){
     let password = getValue("#password");
     let confirmPassword = getValue("#confirm_password");
 
-    if(email.match(/.+@.+\..+/)){
-        updateErrorMsg("Please enter a valid email address");
+    if(!validateEmail(email)){
+        updateErrorMsg("Please enter a valid email address",["#email"]);
         return;
     }
-    if(password.length < 8){
-        updateErrorMsg("Password must be at least 8 characters");
+    if(!validatePassword(password)){
+        updateErrorMsg("Password must be at least 8 characters",["#password"]);
         return;
     }
     if(password != confirmPassword){
@@ -67,7 +40,7 @@ async function join(){
     let res = await fetch(serverURL+"user",{
         method:"POST",
         headers:{
-            "Context-Type":"application/json"
+            "Content-Type":"application/json"
         },
         body:JSON.stringify({
             email,
@@ -78,22 +51,28 @@ async function join(){
         })
     });
     if(res.status == 201){
+        let data = await res.json() as UserResponse;
+        console.log("join data: ",data);
+        localStorage.setItem("token",data.token);
+        localStorage.setItem("userName",data.user.userName);
 
+        router.push({
+            name:"main"
+        });
     }
     else if(res.status == 400){
-        let data = await res.json() as {token:string};
-        // localStorage.setItem("token",data.)
+        console.warn("error: ",await res.json());
+        updateErrorMsg(res.statusText);
+        return;
     }
-
-    // localStorage.setItem("username",username);
-
-    alert("success");
-    return;
-    
+    else{
+        updateErrorMsg(`Error ${res.status} error occured while creating an account, please try again later`);
+        return;
+    }
 }
 
 document.addEventListener("DOMContentLoaded",e=>{
-    init();
+    initInputsForErrorHandling();
 });
 </script>
 
