@@ -29,6 +29,10 @@ header{
     cursor:pointer;
     user-select:none;
     margin:var(--size-400);
+
+    /* to make the anchors not scoot */
+    /* display:inline-block;
+    min-width:60px; */
 }
 :slotted(a)::after{
     content:"";
