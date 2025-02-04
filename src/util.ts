@@ -39,8 +39,82 @@ export function updateErrorMsg(msg:string,highlights?:string[]){
 export function initInputsForErrorHandling(){
     let inputs = document.querySelectorAll("input");
     for(const inp of inputs){
+        if(inp.dataset["initinps"]) return;
+        inp.dataset["initinps"] = "true";
         inp.addEventListener("input",e=>{
             updateErrorMsg("");
         });
     }
 }
+
+class LoadingRegItem{
+    constructor(elm:HTMLElement){
+        this.elm = elm;
+        this.i = 0;
+        elm.innerHTML = "&nbsp;";
+        this.i_id = setInterval(()=>{
+            // if(this.i == 0) elm.innerHTML = "&nbsp;";
+            // else elm.textContent = ".".repeat(this.i);
+            elm.textContent = ["/","-","\\","|"][this.i];
+            this.i++;
+            this.i %= 4;
+        },120);
+    }
+    elm:HTMLElement;
+    i:number;
+    i_id:NodeJS.Timeout;
+}
+const loadingReg = new Map<HTMLElement,LoadingRegItem>();
+export function startLoading(elm?:HTMLElement){
+    if(!elm) elm = document.querySelector(".loading");
+    if(!elm) return;
+    loadingReg.set(elm,new LoadingRegItem(elm));
+}
+export function endLoading(elm?:HTMLElement){
+    if(!elm) elm = document.querySelector(".loading");
+    if(!elm) return;
+    let item = loadingReg.get(elm);
+    if(!item) return;
+    item.elm.textContent = "";
+    clearInterval(item.i_id);
+    loadingReg.delete(elm);
+}
+
+export function wait(delay:number){
+    return new Promise<void>(resolve=>{
+        setTimeout(()=>{
+            resolve();
+        },delay);
+    });
+}
+
+// async function genBG(){
+//     let can = document.createElement("canvas");
+//     can.width = 128;
+//     can.height = 128;
+//     let ctx = can.getContext("2d");
+
+//     ctx.fillStyle = "rgba(0,0,0,0.02)";
+//     // ctx.fillRect(0,0,20,20);
+//     ctx.beginPath();
+
+//     let w = can.width*0.4;
+//     ctx.translate(can.width/2,can.height/2);
+//     ctx.rect(-w/2,-w/2,w,w);
+//     ctx.fill();
+    
+//     let blob = await new Promise<Blob>(resolve=>{
+//         can.toBlob(blob=>{
+//             resolve(blob);
+//         },"image/png");
+//     });
+//     if(!blob){
+//         console.warn("Failed to create canvas background");
+//         return;
+//     }
+//     let url = URL.createObjectURL(blob);
+//     document.body.style.background = `url(${url})`;
+// }
+// document.addEventListener("DOMContentLoaded",e=>{
+//     genBG();
+// });

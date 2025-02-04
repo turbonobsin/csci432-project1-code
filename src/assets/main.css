@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined);
+
 /* #app {
 	max-width: 1280px;
 	margin: 0 auto;
@@ -18,6 +20,7 @@
     --clr-primary-400: hsl(228, 39%, 23%);
 
     --clr-neutral-900: hsl(232, 12%, 13%);
+    --clr-neutral-300: gainsboro;
     --clr-neutral-200: hsl(0 0% 95%);
     --clr-neutral-100: hsl(0 0% 100%);
 
@@ -38,6 +41,7 @@
     --fs-400: 0.875rem;
     --fs-500: 0.9375rem;
     --fs-600: 1rem;
+    --fs-650: 1.2rem;
     --fs-700: 1.875rem;
     --fs-800: 2.5rem;
     --fs-900: 3.5rem;
@@ -273,6 +277,15 @@ body {
     font-size: var(--fs-body);
     font-family: var(--ff-body);
     color: var(--clr-primary-400);
+
+    /* background-size:50px; */
+    /* background-repeat:repeat; */
+
+    /* background: repeating-linear-gradient(transparent, gray 20px, transparent 20px, transparent 40px, gray 40px, gray 60px) */
+
+    /* 3D */
+    /* background: repeating-linear-gradient(transparent, gray 20px, transparent 20px, transparent 40px, gray 40px, gray 60px),
+            repeating-linear-gradient(90deg, transparent, transparent 20px, gray 20px, gray 40px, transparent 40px, transparent 60px); */
 }
 
 /* button */
@@ -415,4 +428,11 @@ body {
 
 .error{
     color:var(--clr-error-400);
+}
+
+.icon{
+    font-family:"Material Icons Outlined";
+    font-size:22px;
+    user-select:none;
+    -webkit-user-select:none;
 }

@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import Header from '@/components/Header.vue';
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
 
-import { initInputsForErrorHandling, serverURL, updateErrorMsg, UserResponse, validateEmail, validatePassword } from '@/util';
-
+import { endLoading, initInputsForErrorHandling, serverURL, startLoading, updateErrorMsg, UserResponse, validateEmail, validatePassword, wait } from '@/util';
 
 const router = useRouter();
 
+let r_email = ref("");
+let r_password = ref("");
+
 async function signIn(e:MouseEvent){
-    let email = document.querySelector<HTMLInputElement>("#email").value;
-    let password = document.querySelector<HTMLInputElement>("#password").value;
+    updateErrorMsg("");
+    
+    let email = r_email.value; // document.querySelector<HTMLInputElement>("#email").value;
+    let password = r_password.value; // document.querySelector<HTMLInputElement>("#password").value;
     if(!email || !password){
         updateErrorMsg("Please fill out all required fields.");
         return;
@@ -19,6 +24,8 @@ async function signIn(e:MouseEvent){
         updateErrorMsg("Please enter a valid email address",["#email"]);
         return;
     }
+
+    startLoading();
 
     let res = await fetch(serverURL+"user/login",{
         method:"POST",
@@ -30,6 +37,7 @@ async function signIn(e:MouseEvent){
             password
         })
     });
+
     if(res.status == 200){
         let data = await res.json() as UserResponse;
         console.log("signin data: ",data);
@@ -39,19 +47,24 @@ async function signIn(e:MouseEvent){
         router.push({
             name:"main"
         });
+
+        endLoading();
+        return;
     }
-    else if(res.status == 400){
+
+    await wait(500); // extra waiting xD
+    endLoading();
+    
+    if(res.status == 400){
         console.warn("error logging in: 400");
         updateErrorMsg("Incorrect email or password");
-        return;
     }
     else{
         updateErrorMsg(`Error ${res.status} error occured while logging in, please try again later`);
-        return;
     }
 }
 
-document.addEventListener("DOMContentLoaded",e=>{
+onMounted(()=>{
     initInputsForErrorHandling();
 });
 
@@ -70,13 +83,14 @@ document.addEventListener("DOMContentLoaded",e=>{
             <form action="" class="form">
                 <div class="form-item">
                     <label for="username">Email</label>
-                    <input type="text" name="email" id="email">
+                    <input v-model="r_email" type="text" name="email" id="email">
                 </div>
                 <div class="form-item">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password">
+                    <input v-model="r_password" type="password" name="password" id="password">
                 </div>
             </form>
+            <div class="loading"></div>
             <div class="error"></div>
             <button class="button margin-block-500" @click="signIn">Sign In</button>
         </section>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Dropdown from '@/components/Dropdown.vue';
 import Header from '@/components/Header.vue';
 import { serverURL, updateErrorMsg } from '@/util';
 import { useRouter } from 'vue-router';
@@ -43,8 +44,9 @@ const name = localStorage.getItem("userName") ?? "(not logged in)";
 
 <template>
     <Header>
-        <nav>
+        <nav class="center">
             <a @click="signOut">Sign Out</a>
+            <Dropdown></Dropdown>
         </nav>
     </Header>
 
