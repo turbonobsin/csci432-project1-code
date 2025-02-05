@@ -33,21 +33,26 @@ async function deleteAccount(){
         alert("Failed to logout with error code: "+res.status);
     }
 }
+
+function goToProfile(){
+    router.push({name:"profile"});
+}
+
 </script>
 
 <template>
     <div class="dropdown-cont">
         <div class="icon">group</div>
         <div class="dd-list">
-            <div class="dd-item">
+            <div class="dd-item" @click="goToProfile">
                 <div class="dd-icon">group</div>
-                <div>View Account</div>
+                <div>Profile</div>
             </div>
             <div class="dd-item">
                 <div class="dd-icon">settings</div>
                 <div>Settings</div>
             </div>
-            <div class="dd-item" @click="deleteAccount()">
+            <div class="dd-item" @click="deleteAccount">
                 <div class="dd-icon">delete</div>
                 <div>Delete Account</div>
             </div>

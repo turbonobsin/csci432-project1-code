@@ -43,6 +43,9 @@ async function signIn(e:MouseEvent){
         console.log("signin data: ",data);
         localStorage.setItem("token",data.token);
         localStorage.setItem("userName",data.user.userName);
+        localStorage.setItem("firstName",data.user.firstName);
+        localStorage.setItem("lastName",data.user.lastName);
+        localStorage.setItem("email",data.user.email);
 
         router.push({
             name:"main"

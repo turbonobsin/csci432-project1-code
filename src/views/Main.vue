@@ -50,12 +50,15 @@ const name = localStorage.getItem("userName") ?? "(not logged in)";
         </nav>
     </Header>
 
-    <div class="error"></div>
+    <!-- <main class="padding-block-700"> -->
+    <main class="three-col">
+        <!-- <section class="three-col"> -->
+            <!-- <h1 class="fs-primary-heading">Welcome {{ name }}!</h1> -->
 
-    <main class="padding-block-700">
-        <section class="container center">
-            <h1 class="fs-primary-heading">Welcome {{ name }}!</h1>
-        </section>
+            <div><RouterView name="leftView"></RouterView></div>
+            <div><RouterView name="centerView"></RouterView></div>
+            <div><RouterView name="rightView"></RouterView></div>
+        <!-- </section> -->
     </main>
 </template>
 
