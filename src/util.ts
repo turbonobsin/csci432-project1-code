@@ -1,3 +1,5 @@
+import { ref } from "vue";
+
 export const serverURL = "https://hap-app-api.azurewebsites.net/";
 
 export type User = {
@@ -87,6 +89,26 @@ export function wait(delay:number){
         },delay);
     });
 }
+
+export function goToPath(path:string){
+    let a = document.createElement("a");
+    a.href = path;
+    a.click();
+}
+
+export const r_themestyle = ref(localStorage.getItem("themestyle"));
+export function setTheme(themestyle:string){
+    let root = document.body.parentElement;
+    root.className = "";
+    root.classList.add("themestyle-"+themestyle);
+    localStorage.setItem("themestyle",themestyle);
+    r_themestyle.value = themestyle;
+}
+export function loadTheme(){
+    console.log("loading theme");
+    setTheme(localStorage.getItem("themestyle") ?? "light");
+}
+loadTheme();
 
 // async function genBG(){
 //     let can = document.createElement("canvas");

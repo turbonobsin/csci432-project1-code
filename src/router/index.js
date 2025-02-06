@@ -5,6 +5,9 @@ import Main from "@/views/Main.vue";
 import Join from "@/views/Join.vue";
 // import { createRouter } from "../../node_modules/vue-router/dist/vue-router";
 import Profile from "@/views/Profile.vue";
+import QuickNav from "@/views/QuickNav.vue";
+import ProfileSettings from "@/views/ProfileSettings.vue";
+import MainWelcome from "@/views/MainWelcome.vue";
 
 const router = createRouter({
 	history:createWebHistory(import.meta.env.BASE_URL),
@@ -25,10 +28,26 @@ const router = createRouter({
 			component: Main,
 			children:[
 				{
+					path:"/main",
+					components:{
+						leftView: QuickNav,
+						centerView: MainWelcome
+					}
+				},
+				{
 					path:"/profile",
 					name:"profile",
 					components:{
+						leftView: QuickNav,
 						centerView: Profile
+					}
+				},
+				{
+					path:"/profile/settings",
+					components:{
+						leftView: QuickNav,
+						centerView: Profile,
+						rightView: ProfileSettings
 					}
 				}
 			]

@@ -3,7 +3,7 @@ import Header from '@/components/Header.vue';
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from "vue";
 
-import { endLoading, initInputsForErrorHandling, serverURL, startLoading, updateErrorMsg, UserResponse, validateEmail, validatePassword, wait } from '@/util';
+import { endLoading, goToPath, initInputsForErrorHandling, serverURL, startLoading, updateErrorMsg, UserResponse, validateEmail, validatePassword, wait } from '@/util';
 
 const router = useRouter();
 
@@ -47,9 +47,10 @@ async function signIn(e:MouseEvent){
         localStorage.setItem("lastName",data.user.lastName);
         localStorage.setItem("email",data.user.email);
 
-        router.push({
-            name:"main"
-        });
+        // router.push({
+        //     name:"main"
+        // });
+        goToPath("/main");
 
         endLoading();
         return;

@@ -1,5 +1,5 @@
-<script setup>
-import { serverURL } from '@/util';
+<script setup lang="ts">
+import { goToPath, r_themestyle, serverURL, setTheme, wait } from '@/util';
 // import { useRouter } from '../../node_modules/vue-router/dist/vue-router';
 import { useRouter } from 'vue-router';
 
@@ -34,8 +34,17 @@ async function deleteAccount(){
     }
 }
 
-function goToProfile(){
+declare function updateCurNavExt(elm?:HTMLElement):void;
+
+async function goToProfile(){
     router.push({name:"profile"});
+    await wait(100);
+    if("updateCurNavExt" in window) updateCurNavExt();
+}
+
+function swapTheme(){
+    if(localStorage.getItem("themestyle") == "dark") setTheme("light");
+    else setTheme("dark");
 }
 
 </script>
@@ -51,6 +60,10 @@ function goToProfile(){
             <div class="dd-item">
                 <div class="dd-icon">settings</div>
                 <div>Settings</div>
+            </div>
+            <div class="dd-item" @click="swapTheme()">
+                <div class="dd-icon">{{ r_themestyle == "light" ? "light" : "dark_mode" }}</div>
+                <div>Change Theme</div>
             </div>
             <div class="dd-item" @click="deleteAccount">
                 <div class="dd-icon">delete</div>
@@ -108,6 +121,7 @@ function goToProfile(){
     /* opacity:0.1; */
 
     box-shadow:0px 3px 0px rgba(0,0,0,0.05);
+    z-index:5;
 }
 .dropdown-cont:hover .dd-list{
     max-height:300px;

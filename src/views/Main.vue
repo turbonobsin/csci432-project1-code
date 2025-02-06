@@ -51,13 +51,16 @@ const name = localStorage.getItem("userName") ?? "(not logged in)";
     </Header>
 
     <!-- <main class="padding-block-700"> -->
-    <main class="three-col">
+
+    <!-- I like the smaller left column but he said to do 1/3 page width columns so it's commented out for now -->
+    <main class="three-col" style="grid-template-columns:350px 1fr 1fr;">
+    <!-- <main class="three-col"> -->
         <!-- <section class="three-col"> -->
             <!-- <h1 class="fs-primary-heading">Welcome {{ name }}!</h1> -->
 
-            <div><RouterView name="leftView"></RouterView></div>
-            <div><RouterView name="centerView"></RouterView></div>
-            <div><RouterView name="rightView"></RouterView></div>
+            <div class=""><RouterView name="leftView"></RouterView></div>
+            <div class="router-view-anim"><RouterView name="centerView"></RouterView></div>
+            <div class="router-view-anim"><RouterView name="rightView"></RouterView></div>
         <!-- </section> -->
     </main>
 </template>

@@ -8,6 +8,8 @@
       "DOM",
       "DOM.Iterable"
     ],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext"
   },
   "exclude": ["node_modules", "dist"]
 }
