@@ -14,26 +14,26 @@ async function getUserInfo(){
     
     startLoading();
     
-    // let res = await fetch(serverURL+"user",{
-    //     method:"GET",
-    //     headers:{
-    //         "Authorization":`Bearer ${token}`
-    //     }
-    // });
+    let res = await fetch(serverURL+"user",{
+        method:"GET",
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+    });
 
     // await wait(500);
 
-    let res = {
-        status:200,
-        json:async ()=>{
-            return {
-                userName:"claebcode",
-                firstName:"Caleb",
-                lastName:"Early",
-                email:"bobemail@gmail.com"
-            } as User;
-        }
-    };
+    // let res = {
+    //     status:200,
+    //     json:async ()=>{
+    //         return {
+    //             userName:"claebcode",
+    //             firstName:"Caleb",
+    //             lastName:"Early",
+    //             email:"bobemail@gmail.com"
+    //         } as User;
+    //     }
+    // };
 
     if(res.status == 200){
         let user = await res.json() as User;

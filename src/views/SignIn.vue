@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router';
 import { ref, onMounted } from "vue";
 
 import { endLoading, goToPath, initInputsForErrorHandling, serverURL, startLoading, updateErrorMsg, UserResponse, validateEmail, validatePassword, wait } from '@/util';
+import { isNavigationFailure } from 'vue-router';
+import { NavigationFailureType } from 'vue-router';
 
 const router = useRouter();
 
@@ -47,10 +49,15 @@ async function signIn(e:MouseEvent){
         localStorage.setItem("lastName",data.user.lastName);
         localStorage.setItem("email",data.user.email);
 
+        router.push({ name: 'main' }).catch(failure => {
+        if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
+            console.error('Navigation failed because we are already at the target location');
+        }
+        });
         // router.push({
         //     name:"main"
         // });
-        goToPath("/main");
+        // goToPath("/main");
 
         endLoading();
         return;

@@ -2,6 +2,7 @@
 import Dropdown from '@/components/Dropdown.vue';
 import Header from '@/components/Header.vue';
 import { serverURL, updateErrorMsg } from '@/util';
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -39,6 +40,12 @@ async function signOut(e:MouseEvent){
 }
 
 const name = localStorage.getItem("userName") ?? "(not logged in)";
+
+onMounted(()=>{
+    setTimeout(()=>{
+        
+    });
+});
 
 </script>
 

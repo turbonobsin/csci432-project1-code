@@ -8,27 +8,20 @@ import Profile from "@/views/Profile.vue";
 import QuickNav from "@/views/QuickNav.vue";
 import ProfileSettings from "@/views/ProfileSettings.vue";
 import MainWelcome from "@/views/MainWelcome.vue";
+import { createWebHashHistory } from "vue-router";
 
 const router = createRouter({
-	history:createWebHistory(import.meta.env.BASE_URL),
+	// history:createWebHistory(import.meta.env.BASE_URL),
+	history:createWebHashHistory(),
 	routes:[
 		{
-			path: "/",
-			name: "home",
-			component: Home
-		},
-		{
-			path:"/signin",
-			name:"signin",
-			component: SignIn
-		},
-		{
 			path:"/main",
-			name:"main",
+			name:"main2",
 			component: Main,
 			children:[
 				{
-					path:"/main",
+					path:"",
+					name:"main",
 					components:{
 						leftView: QuickNav,
 						centerView: MainWelcome
@@ -51,6 +44,16 @@ const router = createRouter({
 					}
 				}
 			]
+		},
+		{
+			path: "/",
+			name: "home",
+			component: Home
+		},
+		{
+			path:"/signin",
+			name:"signin",
+			component: SignIn
 		},
 		{
 			path:"/join",
