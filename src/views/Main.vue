@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Dropdown from '@/components/Dropdown.vue';
 import Header from '@/components/Header.vue';
-import { serverURL, updateErrorMsg } from '@/util';
+import { serverURL, updateErrorMsg, wait } from '@/util';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -41,6 +41,13 @@ async function signOut(e:MouseEvent){
 
 const name = localStorage.getItem("userName") ?? "(not logged in)";
 
+async function goToHome(){
+    router.push({name:"main"});
+    await wait(100);
+    // @ts-ignore
+    if("updateCurNavExt" in window) updateCurNavExt();
+}
+
 onMounted(()=>{
     setTimeout(()=>{
         
@@ -52,6 +59,7 @@ onMounted(()=>{
 <template>
     <Header>
         <nav class="center">
+            <a @click="goToHome">Home</a>
             <a @click="signOut">Sign Out</a>
             <Dropdown></Dropdown>
         </nav>

@@ -5,7 +5,7 @@
     <div>
         <!-- <img src="/main.png" alt="logo"> -->
         <!-- <img src="/tn_logo.png" alt="logo"> -->
-        <img src="/tn_logo2.png" alt="logo">
+        <RouterLink to="/main"><img src="/tn_logo2.png" alt="logo"></RouterLink>
         <!-- <img src="/cc_logo1.png" alt="logo"> -->
         <!-- <img src="/cc_logo2.2.png" alt="logo"> -->
         <!-- <img src="/test_logo.png" alt="logo"> -->

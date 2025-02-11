@@ -14,7 +14,7 @@
             <div class="info-item no-bg">
                 <h3 class="flex align-center space-between">
                     <div>Password</div>
-                    <button>Change Password</button>
+                    <button class="btn">Change Password</button>
                 </h3>
                 <!-- <p class="note">Making your account public means that anyone can view your information.</p> -->
             </div>
@@ -22,7 +22,7 @@
             <div class="info-item no-bg">
                 <h3 class="flex align-center space-between">
                     <div>Change Account Visibility</div>
-                    <button>Go Public</button>
+                    <button class="btn">Go Public</button>
                 </h3>
                 <p class="note">Making your account public means that anyone can view your information.</p>
             </div>

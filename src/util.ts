@@ -1,5 +1,7 @@
 import { ref } from "vue";
 
+export declare function updateCurNavExt(elm?:HTMLElement):void;
+
 export const serverURL = "https://hap-app-api.azurewebsites.net/";
 
 export type User = {
@@ -67,12 +69,14 @@ class LoadingRegItem{
     i_id:NodeJS.Timeout;
 }
 const loadingReg = new Map<HTMLElement,LoadingRegItem>();
-export function startLoading(elm?:HTMLElement){
+export function startLoading(elm?:HTMLElement,cancelIfNoElm=false){
+    if(!elm && cancelIfNoElm) return;
     if(!elm) elm = document.querySelector(".loading");
     if(!elm) return;
     loadingReg.set(elm,new LoadingRegItem(elm));
 }
-export function endLoading(elm?:HTMLElement){
+export function endLoading(elm?:HTMLElement,cancelIfNoElm=false){
+    if(!elm && cancelIfNoElm) return;
     if(!elm) elm = document.querySelector(".loading");
     if(!elm) return;
     let item = loadingReg.get(elm);
@@ -94,6 +98,30 @@ export function goToPath(path:string){
     let a = document.createElement("a");
     a.href = path;
     a.click();
+}
+
+export async function getUser(loadingElm?:HTMLElement){
+    let token = localStorage.getItem("token");
+    if(!token) return;
+    
+    startLoading(loadingElm,true);
+    
+    let res = await fetch(serverURL+"user",{
+        method:"GET",
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+    });
+
+    if(res.status == 200){
+        let user = await res.json() as User;
+        return user; 
+    }
+    else{
+        alert(`Error ${res.status} when trying to get user information, try logging back in.`);
+    }
+
+    endLoading(loadingElm,true);
 }
 
 export const r_themestyle = ref(localStorage.getItem("themestyle"));

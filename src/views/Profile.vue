@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { endLoading, serverURL, startLoading, User, UserResponse, wait } from '@/util';
-import { onMounted, ref } from "vue";
+import Modal from '@/components/Modal.vue';
+import { endLoading, getUser, serverURL, startLoading, User, UserResponse, wait } from '@/util';
+import { onMounted, ref, useTemplateRef } from "vue";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 let r_userName = ref("");
 let r_firstName = ref("");
@@ -51,6 +55,77 @@ async function getUserInfo(){
     endLoading();
 }
 
+async function editProfile(){
+    let data = await getUser();
+    if(!data) return; // failed to get user data
+
+    m_email.value = data.email;
+    m_firstName.value = data.firstName;
+    m_lastName.value = data.lastName;
+    m_userName.value = data.userName;
+    m_password.value = "";
+    
+    editModal.value.open();
+    // firstModelInp.value.focus();
+}
+
+let editModal = useTemplateRef("edit-modal");
+let m_email = ref("");
+let m_firstName = ref("");
+let m_lastName = ref("");
+let m_userName = ref("");
+let m_password = ref("");
+
+let firstModelInp = useTemplateRef("firstModalInp");
+
+function resetEditModalVars(){
+    m_email.value = "";
+}
+function cancelEdit(){
+    resetEditModalVars();
+    editModal.value.close();
+}
+async function saveEdit(){
+    // alert("saved");
+
+    let token = localStorage.getItem("token");
+    if(!token){
+        alert("Failed to save, not logged in");
+        return;
+    }
+
+    let data = {
+        email:m_email.value||undefined,
+        firstName:m_firstName.value||undefined,
+        lastName:m_lastName.value||undefined,
+        userName:m_userName.value||undefined,
+        password:m_password.value||undefined,
+    };
+    console.log("data to edit",data);
+
+    let res = await fetch(serverURL+"user",{
+        method:"PATCH",
+        headers:{
+            "Authorization":`Bearer ${token}`,
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+    });
+
+    if(res.status == 200){
+        console.log("edit profile success");
+    }
+    else{
+        alert("There was an error saving account changes, error code: "+res.status);
+        return;
+    }
+
+    resetEditModalVars();
+    editModal.value.close();
+
+    await getUserInfo();
+}
+
 onMounted(()=>{
     getUserInfo();
 });
@@ -61,6 +136,9 @@ onMounted(()=>{
     <section class="container">
         <header class="sub-header">
             <div>Profile</div>
+            <div class="right-icon-cont">
+                <button class="b-edit-profile icon" @click="editProfile">edit</button>
+            </div>
         </header>
 
         <main>
@@ -92,10 +170,49 @@ onMounted(()=>{
             </div>
         </main>
     </section>
+
+    <Modal ref="edit-modal" @keydown.enter="saveEdit">
+        <template #header>
+            <h1 class="primary-heading">Edit Profile</h1>
+        </template>
+        <template #main>
+            <form action="" class="form">
+                <div class="form-item">
+                    <label for="first_name">First Name</label>
+                    <input v-model="m_firstName" ref="firstModalInp" type="text" name="first_name" id="first_name">
+                </div>
+                <div class="form-item">
+                    <label for="last_name">Last Name</label>
+                    <input v-model="m_lastName" type="text" name="last_name" id="last_name">
+                </div>
+                <div class="form-item">
+                    <label for="email">Email</label>
+                    <input v-model="m_email" type="email" name="email" id="email">
+                </div>
+                <div class="form-item">
+                    <label for="username">Username</label>
+                    <input v-model="m_userName" type="text" name="username" id="username">
+                </div>
+                <div class="form-item">
+                    <label for="password">Password</label>
+                    <input v-model="m_password" type="password" name="password" id="password">
+                </div>
+            </form>
+        </template>
+        <template #footer>
+            <button @click.stop="cancelEdit" class="btn icon-btn">
+                <div class="icon">cancel</div>
+                <div>Cancel</div>
+            </button>
+            <button @click.stop="saveEdit" class="btn b-save accent2 icon-btn">
+                <div class="icon">save</div>
+                <div>Save</div>
+            </button>
+        </template>
+    </Modal>
 </template>
 
 <style scoped>
-
 
 
 </style>

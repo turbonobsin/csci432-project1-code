@@ -34,11 +34,10 @@ async function deleteAccount(){
     }
 }
 
-declare function updateCurNavExt(elm?:HTMLElement):void;
-
 async function goToProfile(){
     router.push({name:"profile"});
     await wait(100);
+    // @ts-ignore
     if("updateCurNavExt" in window) updateCurNavExt();
 }
 
