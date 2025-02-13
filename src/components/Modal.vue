@@ -19,7 +19,7 @@ defineExpose({
 </script>
 
 <template>
-    <div v-show="showModal" class="modal-backdrop fade-in" @click.self="close" @keydown.esc="close">
+    <div v-show="showModal" :fade-in2="showModal" class="modal-backdrop" @click.self="close" @keydown.esc="close">
         <div class="modal">
             <header>
                 <slot name="header"></slot>
@@ -63,6 +63,7 @@ header{
     font-size:var(--fs-650);
     background-color:var(--clr-neutral-300);
     padding:var(--size-300) var(--size-500);
+    font-weight:bold;
     text-transform:uppercase;
     font-family:monospace;
     /* border-bottom:solid 5px var(--clr-accent-400); */
