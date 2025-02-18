@@ -68,7 +68,7 @@ onMounted(()=>{
     <!-- <main class="padding-block-700"> -->
 
     <!-- I like the smaller left column but he said to do 1/3 page width columns so it's commented out for now -->
-    <main class="three-col" style="grid-template-columns:350px 1fr 1fr;">
+    <main class="three-col main-grid" style="grid-template-columns:350px 1fr 1fr;">
     <!-- <main class="three-col"> -->
         <!-- <section class="three-col"> -->
             <!-- <h1 class="fs-primary-heading">Welcome {{ name }}!</h1> -->
@@ -81,4 +81,9 @@ onMounted(()=>{
 </template>
 
 <style scoped>
+
+.main-grid{
+    height:calc(100% - 80px);
+}
+
 </style>

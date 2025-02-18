@@ -9,6 +9,7 @@ import QuickNav from "@/views/QuickNav.vue";
 import ProfileSettings from "@/views/ProfileSettings.vue";
 import MainWelcome from "@/views/MainWelcome.vue";
 import { createWebHashHistory } from "vue-router";
+import MessageFeed from "@/views/MessageFeed.vue";
 
 const router = createRouter({
 	// history:createWebHistory(import.meta.env.BASE_URL),
@@ -24,7 +25,8 @@ const router = createRouter({
 					name:"main",
 					components:{
 						leftView: QuickNav,
-						centerView: MainWelcome
+						centerView: MessageFeed,
+						rightView: MainWelcome
 					}
 				},
 				{

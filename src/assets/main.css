@@ -41,8 +41,10 @@ html.themestyle-dark{
     --clr-neutral-200: hsl(0 0% 95%);
     --clr-neutral-100: hsl(0 0% 100%);
 
+    --clr-error-500:hsl(0, 80%, 45%);
     --clr-error-400:hsl(0,75%,50%);
     --clr-error-100:hsl(0,95%,96%);
+
 
     /* modal */
     --clr-modal-backdrop:rgba(0,0,0,0.2);
@@ -136,6 +138,10 @@ body {
 body {
     text-rendering: optimizeSpeed;
     line-height: 1.5;
+
+    /* display:flex; */
+    /* flex-direction:column; */
+    /* overflow:hidden; */
 }
 
 /* A elements that don't have a class get default styles */
@@ -304,6 +310,10 @@ svg {
 .three-col > div:not(:last-child){
     /* border:solid 1px gray; */
     border-right:dashed 1px lightgray;
+}
+.three-col > div{
+    overflow:scroll;
+    overflow-x:hidden;
 }
 
 /* general styling */

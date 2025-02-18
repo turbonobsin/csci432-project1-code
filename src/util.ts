@@ -1,6 +1,7 @@
 import { ref } from "vue";
 
 export declare function updateCurNavExt(elm?:HTMLElement):void;
+export declare function loadNewMessages():void;
 
 export const serverURL = "https://hap-app-api.azurewebsites.net/";
 

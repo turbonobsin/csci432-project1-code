@@ -62,6 +62,8 @@ async function sendMessage(){
     if(res.status == 201){
         console.log("Message post success");
         r_message.value = "";
+        // @ts-ignore
+        if("loadNewMessages" in window) loadNewMessages();
     }
     else if(res.status == 401){
         console.warn("Failed to post message: please login");

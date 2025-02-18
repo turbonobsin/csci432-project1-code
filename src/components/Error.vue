@@ -37,7 +37,7 @@ defineExpose({
 <style scoped>
 
 div{
-    color:hsl(0, 80%, 45%);
+    color:var(--clr-error-500);
 }
 
 </style>
