@@ -168,8 +168,8 @@ onMounted(()=>{
     color:var(--c);
     /* transition:all 0.2s ease-out; */
 }
-/* .new-message-count[has-new-messages=true]{
+.new-message-count[has-new-messages=true]{
     --c:var(--clr-error-500);
-} */
+}
 
 </style>
