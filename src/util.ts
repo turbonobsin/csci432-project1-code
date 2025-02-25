@@ -126,12 +126,19 @@ export async function getUser(loadingElm?:HTMLElement){
 }
 
 export const r_themestyle = ref(localStorage.getItem("themestyle"));
-export function setTheme(themestyle:string){
-    let root = document.body.parentElement;
-    root.className = "";
+export function setTheme(themestyle:string,body?:HTMLElement){
+    // let root = (body ?? document.body).parentElement;
+    let root = (body ?? document.body);
+    // let changing = root.classList.contains("changing-theme");
+    // root.className = changing ? "changing-theme" : "";
+    for(const name of [...root.classList]){
+        if(name.startsWith("themestyle")) root.classList.remove(name);
+    }
     root.classList.add("themestyle-"+themestyle);
-    localStorage.setItem("themestyle",themestyle);
-    r_themestyle.value = themestyle;
+    if(!body){
+        localStorage.setItem("themestyle",themestyle);
+        r_themestyle.value = themestyle;
+    }
 }
 export function loadTheme(){
     console.log("loading theme");
@@ -169,3 +176,33 @@ loadTheme();
 // document.addEventListener("DOMContentLoaded",e=>{
 //     genBG();
 // });
+
+export async function switchTheme(){
+    let curTheme = localStorage.getItem("themestyle");
+    let newTheme = (curTheme == "dark" ? "light" : "dark");
+    console.log(curTheme,newTheme);
+    
+    let body = document.querySelector("body:not(.body-copy)") as HTMLElement;
+    
+    let copy = body.cloneNode(true) as HTMLElement;
+    copy.classList.add("body-copy");
+    body.parentElement.insertBefore(copy,body);
+
+    setTheme(curTheme,copy);
+
+    // await wait(2000);
+    
+    body.parentElement.classList.add("changing-theme");
+    body.classList.add("changing-theme");
+
+    // setTheme(newTheme,body);
+    
+    localStorage.setItem("themestyle",newTheme);
+    
+    await wait(750);
+    setTheme(newTheme,body);
+
+    body.parentElement.classList.remove("changing-theme");
+    body.classList.remove("changing-theme");
+    copy.remove();
+}

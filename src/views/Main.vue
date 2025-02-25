@@ -85,5 +85,8 @@ onMounted(()=>{
 .main-grid{
     height:calc(100% - 80px);
 }
+.main-grid > div{
+    background-color:var(--clr-neutral-100);
+}
 
 </style>

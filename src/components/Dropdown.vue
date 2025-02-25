@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { goToPath, r_themestyle, serverURL, setTheme, wait } from '@/util';
+import { goToPath, r_themestyle, serverURL, setTheme, switchTheme, wait } from '@/util';
+import { url } from 'inspector';
 // import { useRouter } from '../../node_modules/vue-router/dist/vue-router';
 import { useRouter } from 'vue-router';
 
@@ -42,8 +43,10 @@ async function goToProfile(){
 }
 
 function swapTheme(){
-    if(localStorage.getItem("themestyle") == "dark") setTheme("light");
-    else setTheme("dark");
+    // if(localStorage.getItem("themestyle") == "dark") setTheme("light");
+    // else setTheme("dark");
+
+    switchTheme();
 }
 
 </script>
