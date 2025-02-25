@@ -57,6 +57,12 @@ onMounted(()=>{
                         <div>Home</div>
                     </div>
                 </RouterLink>
+                <RouterLink class="link" to="/user">
+                    <div class="flex align-center gap4">
+                        <div class="icon">search</div>
+                        <div>Search</div>
+                    </div>
+                </RouterLink>
                 <RouterLink class="link" to="/profile">
                     <div class="flex align-center gap4">
                         <div class="icon">group</div>

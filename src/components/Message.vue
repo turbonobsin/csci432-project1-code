@@ -12,7 +12,7 @@ let props = defineProps<{
     <div class="card">
         <div class="head">
             <div class="sender-name">{{ props.senderName }}</div>
-            <div class="updated-at">{{ new Date(props.updatedAt).toLocaleString([],{dateStyle:"short",timeStyle:"short"}) }}</div>
+            <div class="updated-at">{{ props.updatedAt ? new Date(props.updatedAt).toLocaleString([],{dateStyle:"short",timeStyle:"short"}) : "" }}</div>
         </div>
         <div class="text">{{ props.text }}</div>
     </div>

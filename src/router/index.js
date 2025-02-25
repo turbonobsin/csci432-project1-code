@@ -3,13 +3,14 @@ import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn.vue";
 import Main from "@/views/Main.vue";
 import Join from "@/views/Join.vue";
-// import { createRouter } from "../../node_modules/vue-router/dist/vue-router";
 import Profile from "@/views/Profile.vue";
 import QuickNav from "@/views/QuickNav.vue";
 import ProfileSettings from "@/views/ProfileSettings.vue";
 import MainWelcome from "@/views/MainWelcome.vue";
 import { createWebHashHistory } from "vue-router";
 import MessageFeed from "@/views/MessageFeed.vue";
+import SearchUsers from "@/views/SearchUsers.vue";
+import PrivateMessages from "@/views/PrivateMessages.vue";
 
 const router = createRouter({
 	// history:createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,23 @@ const router = createRouter({
 						centerView: Profile,
 						rightView: ProfileSettings
 					}
+				},
+				{
+					path:"/user",
+					name:"user",
+					components:{
+						leftView: QuickNav,
+						centerView: SearchUsers
+					}
+				},
+				{
+					path:"/user/:userId",
+					components:{
+						leftView: QuickNav,
+						centerView: SearchUsers,
+						rightView: PrivateMessages
+					},
+					props: true
 				}
 			]
 		},

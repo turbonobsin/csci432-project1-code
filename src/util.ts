@@ -6,6 +6,7 @@ export declare function loadNewMessages():void;
 export const serverURL = "https://hap-app-api.azurewebsites.net/";
 
 export type User = {
+    _id:string;
     email:string;
     firstName:string;
     lastName:string;
@@ -14,6 +15,15 @@ export type User = {
 export type UserResponse = {
     token:string;
     user:User;
+};
+export type MessageItem = {
+    text:string;
+    updatedAt:string;
+    messageId:string;
+    senderId:string;
+    senderName:string;
+    receiverId:string;
+    receiverName:string;
 };
 
 export function validateEmail(email:string){
@@ -74,6 +84,8 @@ export function startLoading(elm?:HTMLElement,cancelIfNoElm=false){
     if(!elm && cancelIfNoElm) return;
     if(!elm) elm = document.querySelector(".loading");
     if(!elm) return;
+    let existing = loadingReg.get(elm);
+    if(existing) endLoading(elm);
     loadingReg.set(elm,new LoadingRegItem(elm));
 }
 export function endLoading(elm?:HTMLElement,cancelIfNoElm=false){
@@ -187,17 +199,21 @@ export async function switchTheme(){
     let copy = body.cloneNode(true) as HTMLElement;
     copy.classList.add("body-copy");
     body.parentElement.insertBefore(copy,body);
+    // body.insertAdjacentElement("afterend",copy);
 
-    setTheme(curTheme,copy);
+    // setTheme(curTheme,copy);
+    setTheme(newTheme,copy);
+    copy.classList.add("changing-theme");
 
-    // await wait(2000);
+    // await wait(3000);
     
-    body.parentElement.classList.add("changing-theme");
-    body.classList.add("changing-theme");
+    // body.parentElement.classList.add("changing-theme");
+    // body.classList.add("changing-theme");
 
     // setTheme(newTheme,body);
     
     localStorage.setItem("themestyle",newTheme);
+    r_themestyle.value = newTheme;
     
     await wait(750);
     setTheme(newTheme,body);
