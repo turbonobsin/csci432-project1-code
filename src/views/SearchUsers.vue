@@ -23,6 +23,9 @@ async function getUsers(e?:Event){
     await wait(1);
     
     r_hasSearched.value = false;
+    if(e instanceof KeyboardEvent){
+        r_page.value = 0;
+    }
     
     let token = localStorage.getItem("token");
     if(!token){
