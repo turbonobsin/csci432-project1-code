@@ -14,12 +14,12 @@ let r_query = ref("");
 let r_hasSearched = ref(false);
 let r_page = ref(0);
 let r_limit = ref(10);
-let r_searchBy = ref("userName");
+// let r_searchBy = ref("userName");
 let r_sortBy = ref("asc");
 
 let query = useTemplateRef("query");
 
-async function getUsers(){
+async function getUsers(e?:Event){
     await wait(1);
     
     r_hasSearched.value = false;
@@ -34,7 +34,8 @@ async function getUsers(){
 
     let url = new URL(serverURL+"users");
     // url.searchParams.set("search",`userName:${r_query.value}|firstName:${r_query.value}|lastName:${r_query.value}`);
-    url.searchParams.set("search",`${r_searchBy.value}:${r_query.value}`);
+    // url.searchParams.set("search",`${r_searchBy.value}:${r_query.value}`);
+    url.searchParams.set("search",`userName|firstName|lastName:${r_query.value}`);
     url.searchParams.set("sortBy",`userName:${r_sortBy.value}`);
     url.searchParams.set("limit",`${r_limit.value}`);
     url.searchParams.set("skip",`${r_limit.value * r_page.value}`);
@@ -51,7 +52,6 @@ async function getUsers(){
     if(res.status == 200){
         let data = await res.json() as User[];
         r_users.value = data;
-        query.value.value = "";
         r_hasSearched.value = true;
     }
     else{
@@ -102,6 +102,12 @@ function beforeClick(to:string){
     if("reloadPrivateMessages" in window) window.reloadPrivateMessages();
 }
 
+function toggleSortBy(){
+    r_sortBy.value = (r_sortBy.value == "asc" ? "desc" : "asc");
+
+    getUsers();
+}
+
 </script>
 
 <template>
@@ -129,16 +135,27 @@ function beforeClick(to:string){
                     <div class="l-page">Page {{ r_page+1 }}</div>
                     <button class="icon" :disabled="!canGoPrevious()" @click="goToPreviousPage">chevron_left</button>
                     <button class="icon" :disabled="!canGoNext()" @click="goToNextPage">chevron_right</button>
-                    <label for="s-limit" class="l-limit">Per Page</label>
-                    <select name="s-limit" id="s-limit" v-model="r_limit" @input="getUsers">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
+                    <div style="margin-left:auto" class="page-cont-head">
+                        <label for="s-limit" class="l-limit">Per Page</label>
+                        <select name="s-limit" id="s-limit" v-model="r_limit" @input="getUsers">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div style="margin-left:var(--size-400)" class="page-cont-head">
+                        <label for="s-sortBy" class="l-sort">Sort</label>
+                        <button class="icon s-sortBy darker" name="s-sortBy" @click="toggleSortBy">{{ r_sortBy == "asc" ? "keyboard_double_arrow_down" : "keyboard_double_arrow_up" }}</button>
+                        <!-- <label for="s-sortBy" class="l-sort">Sort</label>
+                        <select name="s-sortBy" id="s-sortBy" ref="sort" class="material-icons-outlined" v-model="r_sortBy" @input="getUsers">
+                            <option value="asc" class="material-icons-outlined">Ascending</option>
+                            <option value="desc" class="material-icons-outlined">Descending</option>
+                        </select> -->
+                    </div>
                 </div>
                 <br>
-                <div class="page-cont-head space-between">
+                <!-- <div class="page-cont-head space-between">
                     <div>
                         <label for="s-query" class="l-query">Search By</label>
                         <select name="s-query" id="s-query" v-model="r_searchBy" @input="getUsers">
@@ -154,7 +171,7 @@ function beforeClick(to:string){
                             <option value="desc">Descending</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="users-list" v-show="r_hasSearched">
@@ -202,9 +219,6 @@ function beforeClick(to:string){
 }
 .l-page{
     margin-right:var(--size-300);
-}
-.l-limit{
-    margin-left:auto;
 }
 .page-cont label{
     margin-right:var(--size-200);

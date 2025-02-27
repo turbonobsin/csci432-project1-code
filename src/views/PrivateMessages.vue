@@ -108,8 +108,9 @@ async function postMessage(){
         }
         r_messages.value.splice(0,0,data);
 
-        await wait(10);
-        message.value.value = "";
+        // await wait(50);
+        // message.value.value = "";
+        r_message.value = "";
     }
     else{
         error.value.alert("Error posting new private message with code: "+res.status);
