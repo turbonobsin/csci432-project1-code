@@ -87,7 +87,7 @@ onMounted(()=>{
     -webkit-user-select:none;
     padding:0px var(--size-200);
 
-    transition:background-color 0.1s ease-out;
+    /* transition:background-color 0.1s ease-out; */
 }
 .link[selected]{
     background-color:var(--clr-neutral-200);
@@ -98,7 +98,8 @@ onMounted(()=>{
     left:calc(-1 * var(--size-400));
     width:var(--size-100);
     height:20px;
-    background-color:royalblue;
+    /* background-color:royalblue; */
+    background-color:var(--clr-accent-400);
     border-radius:10px;
     translate:0px -50%;
 

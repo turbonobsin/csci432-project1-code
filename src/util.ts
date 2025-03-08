@@ -204,6 +204,7 @@ export async function switchTheme(){
     // setTheme(curTheme,copy);
     setTheme(newTheme,copy);
     copy.classList.add("changing-theme");
+    body.classList.add("changing-theme-outer");
 
     // await wait(3000);
     
@@ -221,4 +222,7 @@ export async function switchTheme(){
     body.parentElement.classList.remove("changing-theme");
     body.classList.remove("changing-theme");
     copy.remove();
+
+    await wait(500);
+    body.classList.remove("changing-theme-outer");
 }

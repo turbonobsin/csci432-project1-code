@@ -2,8 +2,8 @@
 import Dropdown from '@/components/Dropdown.vue';
 import Header from '@/components/Header.vue';
 import { serverURL, updateErrorMsg, wait } from '@/util';
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
 
@@ -40,12 +40,18 @@ async function signOut(e:MouseEvent){
 }
 
 const name = localStorage.getItem("userName") ?? "(not logged in)";
+const route = useRoute();
+
+watch(route,(v,oldV)=>{
+    // @ts-ignore
+    if("updateCurNavExt" in window) updateCurNavExt();
+});
 
 async function goToHome(){
     router.push({name:"main"});
     await wait(100);
     // @ts-ignore
-    if("updateCurNavExt" in window) updateCurNavExt();
+    // if("updateCurNavExt" in window) updateCurNavExt();
 }
 
 onMounted(()=>{

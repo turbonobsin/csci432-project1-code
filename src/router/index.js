@@ -28,6 +28,9 @@ const router = createRouter({
 						leftView: QuickNav,
 						centerView: MessageFeed,
 						rightView: MainWelcome
+					},
+					meta:{
+						authRequired:true
 					}
 				},
 				{
@@ -36,6 +39,9 @@ const router = createRouter({
 					components:{
 						leftView: QuickNav,
 						centerView: Profile
+					},
+					meta:{
+						authRequired:true
 					}
 				},
 				{
@@ -44,6 +50,9 @@ const router = createRouter({
 						leftView: QuickNav,
 						centerView: Profile,
 						rightView: ProfileSettings
+					},
+					meta:{
+						authRequired:true
 					}
 				},
 				{
@@ -52,6 +61,9 @@ const router = createRouter({
 					components:{
 						leftView: QuickNav,
 						centerView: SearchUsers
+					},
+					meta:{
+						authRequired:true
 					}
 				},
 				{
@@ -61,26 +73,55 @@ const router = createRouter({
 						centerView: SearchUsers,
 						rightView: PrivateMessages
 					},
-					props: true
+					props: true,
+					meta:{
+						authRequired:true
+					}
 				}
 			]
 		},
 		{
 			path: "/",
 			name: "home",
-			component: Home
+			component: Home,
+			meta:{
+				authRequired:false
+			}
 		},
 		{
 			path:"/signin",
 			name:"signin",
-			component: SignIn
+			component: SignIn,
+			meta:{
+				authRequired:false
+			}
 		},
 		{
 			path:"/join",
 			name:"join",
-			component: Join
+			component: Join,
+			meta:{
+				authRequired:false
+			}
 		}
 	],
+});
+
+// global nav guard
+router.beforeEach(async (to,from)=>{
+	// 404 to home
+	if(to.matched.length == 0){
+		if(localStorage.getItem("token") != null){
+			return "/main";
+		}
+		return "/";
+	}
+	
+	// no auth to home
+	if(to.meta.authRequired){
+		if(localStorage.getItem("token") != null) return;
+		return "/";
+	}
 });
 
 export default router;
