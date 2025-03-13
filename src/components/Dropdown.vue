@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user';
 import { goToPath, r_themestyle, serverURL, setTheme, switchTheme, wait } from '@/util';
 import { url } from 'inspector';
 // import { useRouter } from '../../node_modules/vue-router/dist/vue-router';
@@ -6,8 +7,10 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
+const userStore = useUserStore();
+
 async function deleteAccount(){
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token) return;
 
     if(!confirm("Are you sure you want to delete your account?\n\nThis action is irreversible!")) return;
@@ -22,8 +25,9 @@ async function deleteAccount(){
     if(res.status == 200){
         console.log("> successfully deleted account");
         
-        localStorage.removeItem("token");
-        localStorage.removeItem("userName");
+        // localStorage.removeItem("token");
+        // localStorage.removeItem("userName");
+        userStore.$reset;
         
         router.push({
             name:"home"

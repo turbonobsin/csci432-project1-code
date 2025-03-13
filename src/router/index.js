@@ -11,6 +11,7 @@ import { createWebHashHistory } from "vue-router";
 import MessageFeed from "@/views/MessageFeed.vue";
 import SearchUsers from "@/views/SearchUsers.vue";
 import PrivateMessages from "@/views/PrivateMessages.vue";
+import { useUserStore } from "@/stores/user.ts";
 
 const router = createRouter({
 	// history:createWebHistory(import.meta.env.BASE_URL),
@@ -107,21 +108,25 @@ const router = createRouter({
 	],
 });
 
-// global nav guard
-router.beforeEach(async (to,from)=>{
-	// 404 to home
-	if(to.matched.length == 0){
-		if(localStorage.getItem("token") != null){
-			return "/main";
+export function registerRouterGuards(){
+	const userStore = useUserStore();
+
+	// global nav guard
+	router.beforeEach(async (to,from)=>{
+		// 404 to home
+		if(to.matched.length == 0){
+			if(userStore.token){
+				return "/main";
+			}
+			return "/";
 		}
-		return "/";
-	}
-	
-	// no auth to home
-	if(to.meta.authRequired){
-		if(localStorage.getItem("token") != null) return;
-		return "/";
-	}
-});
+		
+		// no auth to home
+		if(to.meta.authRequired){
+			if(userStore.token) return;
+			return "/";
+		}
+	});
+}
 
 export default router;

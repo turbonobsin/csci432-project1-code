@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import Error from '@/components/Error.vue';
 import Message from '@/components/Message.vue';
+import { useUserStore } from '@/stores/user';
 import { endLoading, getUser, serverURL, startLoading, User, UserResponse, wait } from '@/util';
 import { onMounted, ref, useTemplateRef } from "vue";
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
+const userStore = useUserStore();
 
 const error = useTemplateRef("error");
 
@@ -27,7 +28,7 @@ async function getUsers(e?:Event){
         r_page.value = 0;
     }
     
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         error.value.alert("Please login.");
         return;

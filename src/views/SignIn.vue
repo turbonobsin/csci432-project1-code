@@ -6,6 +6,9 @@ import { ref, onMounted } from "vue";
 import { endLoading, goToPath, initInputsForErrorHandling, serverURL, startLoading, updateErrorMsg, UserResponse, validateEmail, validatePassword, wait } from '@/util';
 import { isNavigationFailure } from 'vue-router';
 import { NavigationFailureType } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
 
 const router = useRouter();
 
@@ -43,11 +46,12 @@ async function signIn(e:MouseEvent){
     if(res.status == 200){
         let data = await res.json() as UserResponse;
         console.log("signin data: ",data);
-        localStorage.setItem("token",data.token);
-        localStorage.setItem("userName",data.user.userName);
-        localStorage.setItem("firstName",data.user.firstName);
-        localStorage.setItem("lastName",data.user.lastName);
-        localStorage.setItem("email",data.user.email);
+        // localStorage.setItem("token",data.token);
+        // localStorage.setItem("userName",data.user.userName);
+        // localStorage.setItem("firstName",data.user.firstName);
+        // localStorage.setItem("lastName",data.user.lastName);
+        // localStorage.setItem("email",data.user.email);
+        userStore.setUser(data.user,data.token);
 
         router.push({ name: 'main' }).catch(failure => {
         if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {

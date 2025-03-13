@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import Dropdown from '@/components/Dropdown.vue';
 import Header from '@/components/Header.vue';
+import { useUserStore } from '@/stores/user';
 import { serverURL, updateErrorMsg, wait } from '@/util';
 import { onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
 
-async function signOut(e:MouseEvent){
-    localStorage.removeItem("userName");
+const userStore = useUserStore();
 
-    let token = localStorage.getItem("token");
+async function signOut(e:MouseEvent){
+    let token = userStore.token;
+
     if(!token){
         router.push({
             name:"home"
@@ -26,8 +28,7 @@ async function signOut(e:MouseEvent){
     });
 
     if(res.status == 200){
-        localStorage.removeItem("token");
-        localStorage.removeItem("userName");
+        userStore.$reset(); // only reset if successful
         router.push({
             name:"home"
         });
@@ -39,7 +40,7 @@ async function signOut(e:MouseEvent){
     }
 }
 
-const name = localStorage.getItem("userName") ?? "(not logged in)";
+// const name = localStorage.getItem("userName") ?? "(not logged in)";
 const route = useRoute();
 
 watch(route,(v,oldV)=>{

@@ -3,8 +3,10 @@ import { serverURL, wait } from '@/util';
 import { onMounted, ref, useTemplateRef, watch } from 'vue';
 import Error from '@/components/Error.vue';
 import Loading from '@/components/Loading.vue';
+import { useUserStore } from '@/stores/user';
 
-let name = ref(localStorage.getItem("userName"));
+const userStore = useUserStore();
+
 let time = ref("evening");
 let now = new Date();
 let hours = now.getHours();
@@ -34,7 +36,7 @@ async function sendMessage(){
         return;
     }
     
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         return;
     }
@@ -87,7 +89,7 @@ onMounted(()=>{
             <div>Home</div>
         </header>
         <br>
-        <h1 class="fs-secondary-heading">Good {{ time }}, {{ name }}.</h1>
+        <h1 class="fs-secondary-heading">Good {{ time }}, {{ userStore.userName }}.</h1>
 
         <div class="margin-block-700">
             <header class="sub-header">

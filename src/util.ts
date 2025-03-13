@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { useUserStore } from "./stores/user.js";
 
 export declare function updateCurNavExt(elm?:HTMLElement):void;
 export declare function loadNewMessages():void;
@@ -114,7 +115,7 @@ export function goToPath(path:string){
 }
 
 export async function getUser(loadingElm?:HTMLElement){
-    let token = localStorage.getItem("token");
+    let token = useUserStore().token;
     if(!token) return;
     
     startLoading(loadingElm,true);
@@ -226,3 +227,8 @@ export async function switchTheme(){
     await wait(500);
     body.classList.remove("changing-theme-outer");
 }
+
+// not needed for now but good to keep around
+// userStore.$subscribe((mutation,state)=>{
+
+// });

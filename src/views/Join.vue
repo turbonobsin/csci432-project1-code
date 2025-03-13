@@ -4,6 +4,9 @@ import { useRouter } from 'vue-router';
 import { ref, onMounted } from "vue";
 
 import { endLoading, initInputsForErrorHandling, serverURL, startLoading, updateErrorMsg, UserResponse, validateEmail, validatePassword, wait } from '@/util';
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
 
 const router = useRouter();
 
@@ -69,11 +72,12 @@ async function join(){
     if(res.status == 201){
         let data = await res.json() as UserResponse;
         console.log("join data: ",data);
-        localStorage.setItem("token",data.token);
-        localStorage.setItem("userName",data.user.userName);
-        localStorage.setItem("firstName",data.user.firstName);
-        localStorage.setItem("lastName",data.user.lastName);
-        localStorage.setItem("email",data.user.email);
+        // localStorage.setItem("token",data.token);
+        // localStorage.setItem("userName",data.user.userName);
+        // localStorage.setItem("firstName",data.user.firstName);
+        // localStorage.setItem("lastName",data.user.lastName);
+        // localStorage.setItem("email",data.user.email);
+        userStore.setUser(data.user,data.token);
 
         router.push({
             name:"main"

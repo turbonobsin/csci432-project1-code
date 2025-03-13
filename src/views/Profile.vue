@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue';
+import { useUserStore } from '@/stores/user';
 import { endLoading, getUser, serverURL, startLoading, User, UserResponse, wait } from '@/util';
 import { onMounted, ref, useTemplateRef } from "vue";
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
+const userStore = useUserStore();
 
 let r_userName = ref("");
 let r_firstName = ref("");
@@ -13,7 +14,7 @@ let r_email = ref("");
 let r_showInfo = ref(false);
 
 async function getUserInfo(){
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token) return;
     
     startLoading();
@@ -86,9 +87,7 @@ function cancelEdit(){
     editModal.value.close();
 }
 async function saveEdit(){
-    // alert("saved");
-
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         alert("Failed to save, not logged in");
         return;

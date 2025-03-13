@@ -2,12 +2,15 @@
 import { serverURL } from '@/util';
 import { onMounted, ref, registerRuntimeCompiler, useTemplateRef } from 'vue';
 import Message from '@/components/Message.vue';
+import { useUserStore } from '@/stores/user';
 
 type Msg = {
     senderName:string;
     updatedAt:string;
     text:string;
 };
+
+const userStore = useUserStore();
 
 const messages = ref<Msg[]>([]);
 const r_newMsgCount = ref(0);
@@ -17,7 +20,7 @@ async function loadMessages(before?:string,after?:string,atStart=false){
     
     lastUpdate = performance.now();
     
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         return;
     }
@@ -43,7 +46,6 @@ async function loadMessages(before?:string,after?:string,atStart=false){
         for(const item of data){
             if(!item.senderName){
                 item.senderName = "[Deleted User]";
-                console.warn("found deleted user",item);
             }
         }
         if(atStart){
@@ -63,7 +65,7 @@ function getAfterTime(){
 }
 
 async function checkForNewMessages(){    
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         return;
     }

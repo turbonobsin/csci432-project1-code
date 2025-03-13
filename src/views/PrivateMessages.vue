@@ -4,6 +4,7 @@ import { endLoading, getUser, MessageItem, serverURL, startLoading, User, UserRe
 import { onMounted, ref, useTemplateRef } from "vue";
 import { useRouter } from 'vue-router';
 import Message from '@/components/Message.vue';
+import { useUserStore } from '@/stores/user';
 
 const props = defineProps<{
     userId:string
@@ -11,6 +12,8 @@ const props = defineProps<{
 
 const error = useTemplateRef("error");
 const loading = useTemplateRef("loading");
+
+const userStore = useUserStore();
 
 let r_message = ref("");
 let r_messages = ref<MessageItem[]>([]);
@@ -26,7 +29,7 @@ async function loadMessages(before?:string,after?:string,atStart=false){
     
     lastUpdate = performance.now();
     
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         error.value.alert("Please login.");
         return;
@@ -80,7 +83,7 @@ async function loadNewMessages(){
 }
 
 async function postMessage(){
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         error.value.alert("Please login.");
         return;
@@ -104,7 +107,7 @@ async function postMessage(){
     if(res.status == 201){
         let data = await res.json() as MessageItem;
         if(!data.senderName){
-            data.senderName = localStorage.getItem("firstName")+" "+localStorage.getItem("lastName");
+            data.senderName = userStore.wholeName;
         }
         r_messages.value.splice(0,0,data);
 
@@ -120,7 +123,7 @@ async function postMessage(){
 }
 
 async function checkForNewMessages(){    
-    let token = localStorage.getItem("token");
+    let token = userStore.token;
     if(!token){
         return;
     }

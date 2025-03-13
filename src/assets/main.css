@@ -598,11 +598,14 @@ button.icon.darker:active{
     background-color:var(--clr-neutral-400);
 }
 
+button:disabled{
+    opacity:0.3;
+}
 button:disabled:hover{
-    background:none;
+    background:none !important;
 }
 button:disabled:active{
-    background:none;
+    background:none !important;
 }
 
 select{
